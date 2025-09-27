@@ -17,8 +17,13 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: e5367c0630fccba48b6ea87865961860
   m_SerializeEntries:
-  - m_GUID: 48d48128c4998ff439894a54016fb968
-    m_Address: TransparentImage
+  - m_GUID: 46581a6269ca467d9624e43338e9f089
+    m_Address: File1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6eac019f12eec34facf7b147a290b56
+    m_Address: CubeView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
