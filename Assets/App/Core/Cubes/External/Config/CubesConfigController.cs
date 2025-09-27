@@ -1,4 +1,5 @@
-﻿using App.Common.Configs.Runtime;
+﻿using System.Collections.Generic;
+using App.Common.Configs.Runtime;
 using UnityEngine;
 
 namespace App.Core.Cubes.External.Config
@@ -7,6 +8,7 @@ namespace App.Core.Cubes.External.Config
     {
         private readonly IConfigLoader m_ConfigLoader;
 
+        private string[] m_Matrix;
 
         public CubesConfigController(IConfigLoader configLoader)
         {
@@ -24,8 +26,30 @@ namespace App.Core.Cubes.External.Config
             }
 
             var text = config.Value;
+            var rows = text.Trim().Split('\n');
+            
+            m_Matrix = new string[rows.Length];
+            for (int i = 0; i < rows.Length; ++i)
+            {
+                m_Matrix[i] = rows[i].Trim();
+            }
 
             return true;
+        }
+
+        public IReadOnlyList<string> GetMatrix()
+        {
+            return m_Matrix;
+        }
+        
+        public int GetWidth()
+        {
+            return m_Matrix[0].Length;
+        }
+        
+        public int GetHeight()
+        {
+            return m_Matrix.Length;
         }
     }
 }
