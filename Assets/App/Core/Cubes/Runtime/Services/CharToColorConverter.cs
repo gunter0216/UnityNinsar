@@ -1,7 +1,7 @@
 ﻿using App.Common.Utilities.Utility.Runtime;
 using UnityEngine;
 
-namespace App.Core.Cubes.External.Services
+namespace App.Core.Cubes.Runtime.Services
 {
     public class CharToColorConverter
     {

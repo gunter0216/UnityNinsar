@@ -2,7 +2,7 @@
 using App.Common.Configs.Runtime;
 using UnityEngine;
 
-namespace App.Core.Cubes.External.Config
+namespace App.Core.Cubes.Runtime.Config
 {
     public class CubesConfigController
     {

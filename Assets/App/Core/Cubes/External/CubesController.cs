@@ -2,10 +2,10 @@
 using App.Common.AssetSystem.Runtime;
 using App.Common.Configs.Runtime;
 using App.Common.Utilities.Utility.Runtime;
-using App.Core.Cubes.External.Config;
 using App.Core.Cubes.External.Presenter;
 using App.Core.Cubes.External.Presenter.Fabric;
-using App.Core.Cubes.External.Services;
+using App.Core.Cubes.Runtime.Config;
+using App.Core.Cubes.Runtime.Services;
 using UniRx;
 using UnityEngine;
 
@@ -19,6 +19,7 @@ namespace App.Core.Cubes.External
         private CubesConfigController m_ConfigController;
         private CubesPresenter m_Presenter;
         private CubesMoveStrategy m_MoveStrategy;
+        private CharToColorMatrixConverter m_Converter;
         private IDisposable m_Disposable;
 
         public CubesController(IConfigLoader configLoader, IAssetManager assetManager)
@@ -37,6 +38,8 @@ namespace App.Core.Cubes.External
 
             m_MoveStrategy = new CubesMoveStrategy(m_ConfigController);
             m_MoveStrategy.Initialize();
+
+            m_Converter = new CharToColorMatrixConverter();
 
             m_Disposable = Observable.EveryUpdate()
                 .Select(_ =>
@@ -63,7 +66,8 @@ namespace App.Core.Cubes.External
 
         private void UpdateView()
         {
-            m_Presenter.UpdateCubes(m_MoveStrategy.GetGrid());
+            var grid = m_MoveStrategy.GetGrid();
+            m_Presenter.UpdateCubes(m_Converter.Convert(grid));
         }
 
         public void Dispose()

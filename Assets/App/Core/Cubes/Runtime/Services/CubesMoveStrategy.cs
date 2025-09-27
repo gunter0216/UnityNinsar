@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
-using App.Core.Cubes.External.Config;
+using App.Core.Cubes.Runtime.Config;
 using UnityEngine;
 
-namespace App.Core.Cubes.External.Services
+namespace App.Core.Cubes.Runtime.Services
 {
     public class CubesMoveStrategy
     {
         private const int m_Size = CubesConstants.Size;
-        
+
         private readonly CubesConfigController m_ConfigController;
-        
-        private CharToColorConverter m_Converter;
-        
-        private Color[,] m_Grid;
+
+        private char[,] m_Grid;
         private Vector2Int m_Center;
         private IReadOnlyList<string> m_Matrix;
 
@@ -23,8 +21,7 @@ namespace App.Core.Cubes.External.Services
 
         public void Initialize()
         {
-            m_Converter = new CharToColorConverter();
-            m_Grid = new Color[m_Size, m_Size];
+            m_Grid = new char[m_Size, m_Size];
             m_Matrix = m_ConfigController.GetMatrix();
 
             m_Center = GetRandomCenter();
@@ -36,17 +33,17 @@ namespace App.Core.Cubes.External.Services
         {
             direction.y = -direction.y;
             m_Center += direction;
-            
+
             var height = GetHeight();
             var width = GetWidth();
-            
+
             m_Center.x = (m_Center.x + width) % width;
             m_Center.y = (m_Center.y + height) % height;
-            
+
             UpdateGrid();
         }
-        
-        public Color[,] GetGrid()
+
+        public char[,] GetGrid()
         {
             return m_Grid;
         }
@@ -65,15 +62,11 @@ namespace App.Core.Cubes.External.Services
                     x = (x + width) % width;
                     y = (y + height) % height;
                     char c = m_Matrix[y][x];
-                    var color = m_Converter.Convert(c);
-                    if (color.HasValue)
-                    {
-                        m_Grid[j, i] = color.Value;
-                    }
+                    m_Grid[j, i] = c;
                 }
             }
         }
-        
+
         private int GetWidth()
         {
             return m_ConfigController.GetWidth();

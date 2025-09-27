@@ -1,0 +1,4 @@
+﻿{
+  "name": "Autumn.Cubes",
+  "references":[ "Autumn.Utility", "Autumn.ConfigLoader" ]
+}

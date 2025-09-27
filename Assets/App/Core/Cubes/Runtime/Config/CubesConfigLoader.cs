@@ -1,7 +1,7 @@
 ﻿using App.Common.Configs.Runtime;
 using App.Common.Utilities.Utility.Runtime;
 
-namespace App.Core.Cubes.External.Config
+namespace App.Core.Cubes.Runtime.Config
 {
     public class CubesConfigLoader
     {

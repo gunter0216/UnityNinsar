@@ -1,4 +1,4 @@
-﻿namespace App.Core.Cubes.External
+﻿namespace App.Core.Cubes.Runtime
 {
     public class CubesConstants
     {
