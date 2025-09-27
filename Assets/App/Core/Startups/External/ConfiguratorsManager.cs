@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using App.Common.AssemblyManager.Runtime;
-using App.Common.Data.Runtime;
 using App.Common.FSM.External;
 using App.Core.Startups.External.Attributes;
 using Castle.Core.Internal;
@@ -16,17 +15,14 @@ namespace App.Core.Startups.External
     public class ConfiguratorsManager
     {
         private readonly FSMRegistrar m_FsmRegistrar;
-        private readonly DataRegistrar m_DataRegistrar;
 
         private readonly Dictionary<int, List<Configurator>> m_Configurators = new();
 
         public ConfiguratorsManager(
             IReadOnlyList<AttributeNode> configurators, 
-            FSMRegistrar fsmRegistrar,
-            DataRegistrar dataRegistrar)
+            FSMRegistrar fsmRegistrar)
         {
             m_FsmRegistrar = fsmRegistrar;
-            m_DataRegistrar = dataRegistrar;
 
             SetConfigurators(configurators);
         }
@@ -79,7 +75,6 @@ namespace App.Core.Startups.External
             {
                 configurator.SetDiContainer(container);
                 configurator.SetFSMRegistrator(m_FsmRegistrar);
-                configurator.SetDataRegistrator(m_DataRegistrar);
                 configurator.Configuration();
             }
         }

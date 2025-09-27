@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using App.Common.AssetSystem.Runtime;
-using App.Common.Configs.Runtime.ConfigConverters;
+﻿using App.Common.AssetSystem.Runtime;
 using App.Common.Utilities.Utility.Runtime;
 using UnityEngine;
 
@@ -10,39 +7,26 @@ namespace App.Common.Configs.Runtime
     public class AddressablesConfigLoader
     {
         private readonly IAssetManager m_AssetManager;
-        private readonly IReadOnlyList<IConfigConverter> m_ConfigConverters;
 
-        public AddressablesConfigLoader(IAssetManager assetManager, IReadOnlyList<IConfigConverter> configConverters)
+        public AddressablesConfigLoader(IAssetManager assetManager)
         {
             m_AssetManager = assetManager;
-            m_ConfigConverters = configConverters;
         }
 
-        public Optional<T> Load<T>(string localKey) where T : class
+        public Optional<string> Load(string localKey)
         {
             var keyEvaluator = new StringKeyEvaluator(localKey);
-            var config = m_AssetManager.LoadSync<Object>(keyEvaluator);
+            var config = m_AssetManager.LoadSync<TextAsset>(keyEvaluator);
             if (!config.HasValue)
             {
-                Debug.LogError($"[AddressablesConfigLoader] In method Load, config is not preloaded {typeof(T).Name} with key {localKey}.");
-                return new Optional<T>(default, false);
+                Debug.LogError($"[AddressablesConfigLoader] In method Load, cant load config {localKey}.");
+                return Optional<string>.Fail();
             }
 
-            var configObj = config.Value;
-            var configConverter = m_ConfigConverters.FirstOrDefault(converter =>
-                converter.GetTargetType().IsInstanceOfType(configObj));
-            if (configConverter != null)
-            {
-                var convertedConfig = configConverter.Convert<T>(configObj);
-                m_AssetManager.UnloadAsset(keyEvaluator);
-                return convertedConfig;
-            }
-            
-            Debug.LogError($"Not found config converter for type {configObj.GetType().Name} with key {localKey}.");
-            
+            var text = config.Value.text;
             m_AssetManager.UnloadAsset(keyEvaluator);
             
-            return Optional<T>.Fail();
+            return Optional<string>.Success(text);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using App.Common.AssemblyManager.External;
-using App.Common.Data.Runtime;
 using App.Common.FSM.External;
 using App.Core.Startups.External.Attributes;
 using App.Core.Startups.External.Constants;
@@ -21,14 +20,12 @@ namespace App.Core.Startups.External
             
             var configurators = assemblyProvider.GetTypes<ConfiguratorAttribute>();
             var fsmRegistrar = new FSMRegistrar();
-            var dataRegistrar = new DataRegistrar();
             
-            var configuratorsManager = new ConfiguratorsManager(configurators, fsmRegistrar, dataRegistrar);
+            var configuratorsManager = new ConfiguratorsManager(configurators, fsmRegistrar);
             configuratorsManager.RunConfigurator(ContextConstants.GlobalContext, Container);
             
             Container.BindInstance(configuratorsManager);
             Container.BindInstance(fsmRegistrar);
-            Container.BindInstance(dataRegistrar);
         }
     }
 }

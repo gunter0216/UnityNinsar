@@ -1,5 +1,0 @@
-{
-  "name": "Autumn.Json",
-  "references":[ "Autumn.Utility" ],
-  "noEngineReferences": false
-}

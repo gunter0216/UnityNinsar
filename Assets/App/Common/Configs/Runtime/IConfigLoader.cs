@@ -4,6 +4,6 @@ namespace App.Common.Configs.Runtime
 {
     public interface IConfigLoader
     {
-        Optional<T> LoadConfig<T>(string key) where T : class;
+        Optional<string> LoadConfig(string key);
     }
 }
