@@ -65,8 +65,11 @@ namespace App.Core.Cubes.External.Services
                     x = (x + width) % width;
                     y = (y + height) % height;
                     char c = m_Matrix[y][x];
-                    var color = m_Converter.Convert(c).Value;
-                    m_Grid[j, i] = color;
+                    var color = m_Converter.Convert(c);
+                    if (color.HasValue)
+                    {
+                        m_Grid[j, i] = color.Value;
+                    }
                 }
             }
         }
