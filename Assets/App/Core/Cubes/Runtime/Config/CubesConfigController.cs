@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace App.Core.Cubes.Runtime.Config
 {
-    public class CubesConfigController
+    public class CubesConfigController : ICubesConfigController
     {
         private readonly IConfigLoader m_ConfigLoader;
 
@@ -50,6 +50,11 @@ namespace App.Core.Cubes.Runtime.Config
         public int GetHeight()
         {
             return m_Matrix.Length;
+        }
+
+        public int GetDisplayedSize()
+        {
+            return CubesConstants.Size;
         }
     }
 }

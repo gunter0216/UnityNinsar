@@ -33,13 +33,13 @@ namespace App.Core.Cubes.External
             m_ConfigController = new CubesConfigController(m_ConfigLoader);
             m_ConfigController.Initialize();
 
-            m_Presenter = new CubesPresenter(new CubeViewCreator(m_AssetManager));
+            m_Presenter = new CubesPresenter(m_ConfigController, new CubeViewCreator(m_AssetManager));
             m_Presenter.Initialize();
 
-            m_MoveStrategy = new CubesMoveStrategy(m_ConfigController);
+            m_MoveStrategy = new CubesMoveStrategy(m_ConfigController, new StartPositionStrategy(m_ConfigController));
             m_MoveStrategy.Initialize();
 
-            m_Converter = new CharToColorMatrixConverter();
+            m_Converter = new CharToColorMatrixConverter(m_ConfigController);
 
             m_Disposable = Observable.EveryUpdate()
                 .Select(_ =>

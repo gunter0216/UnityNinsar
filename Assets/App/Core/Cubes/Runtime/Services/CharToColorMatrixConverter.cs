@@ -1,24 +1,25 @@
-﻿using UnityEngine;
+﻿using App.Core.Cubes.Runtime.Config;
+using UnityEngine;
 
 namespace App.Core.Cubes.Runtime.Services
 {
     public class CharToColorMatrixConverter
     {
-        private const int m_Size = CubesConstants.Size;
-        
+        private readonly int m_DisplayedSize;
         private readonly Color[,] m_Grid;
-        
-        public CharToColorMatrixConverter()
+
+        public CharToColorMatrixConverter(ICubesConfigController configController)
         {
-            m_Grid = new Color[m_Size, m_Size];
+            m_DisplayedSize = configController.GetDisplayedSize();
+            m_Grid = new Color[m_DisplayedSize, m_DisplayedSize];
         }
         
         public Color[,] Convert(char[,] charMatrix)
         {
             var converter = new CharToColorConverter();
-            for (int i = 0; i < m_Size; ++i)
+            for (int i = 0; i < m_DisplayedSize; ++i)
             {
-                for (int j = 0; j < m_Size; ++j)
+                for (int j = 0; j < m_DisplayedSize; ++j)
                 {
                     var c = charMatrix[i, j];
                     var colorOpt = converter.Convert(c);

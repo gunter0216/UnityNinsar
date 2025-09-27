@@ -6,25 +6,27 @@ namespace App.Core.Cubes.Runtime.Services
 {
     public class CubesMoveStrategy
     {
-        private const int m_Size = CubesConstants.Size;
-
-        private readonly CubesConfigController m_ConfigController;
-
+        private readonly ICubesConfigController m_ConfigController;
+        private readonly IStartPositionStrategy m_StartPositionStrategy;
+        
+        private int m_DisplayedSize;
         private char[,] m_Grid;
         private Vector2Int m_Center;
         private IReadOnlyList<string> m_Matrix;
 
-        public CubesMoveStrategy(CubesConfigController configController)
+        public CubesMoveStrategy(ICubesConfigController configController, IStartPositionStrategy startPositionStrategy)
         {
             m_ConfigController = configController;
+            m_StartPositionStrategy = startPositionStrategy;
         }
 
         public void Initialize()
         {
-            m_Grid = new char[m_Size, m_Size];
+            m_DisplayedSize = m_ConfigController.GetDisplayedSize();
+            m_Grid = new char[m_DisplayedSize, m_DisplayedSize];
             m_Matrix = m_ConfigController.GetMatrix();
 
-            m_Center = GetRandomCenter();
+            m_Center = m_StartPositionStrategy.GetStartPosition();
             
             UpdateGrid();
         }
@@ -50,12 +52,12 @@ namespace App.Core.Cubes.Runtime.Services
 
         private void UpdateGrid()
         {
-            int half = m_Size / 2;
+            int half = m_DisplayedSize / 2;
             int height = GetHeight();
             int width = GetWidth();
-            for (int i = 0; i < m_Size; ++i)
+            for (int i = 0; i < m_DisplayedSize; ++i)
             {
-                for (int j = 0; j < m_Size; ++j)
+                for (int j = 0; j < m_DisplayedSize; ++j)
                 {
                     int x = m_Center.x + i - half;
                     int y = m_Center.y + j - half;
@@ -75,13 +77,6 @@ namespace App.Core.Cubes.Runtime.Services
         private int GetHeight()
         {
             return m_ConfigController.GetHeight();
-        }
-
-        private Vector2Int GetRandomCenter()
-        {
-            var x = Random.Range(0, GetWidth());
-            var y = Random.Range(0, GetHeight());
-            return new Vector2Int(x, y);
         }
     }
 }

@@ -1,0 +1,7 @@
+﻿{
+  "name": "Autumn.Cubes.Tests",
+  "references":[ "Autumn.Cubes" ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}
